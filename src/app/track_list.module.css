@@ -1,0 +1,59 @@
+.row {
+  height: 50px;
+  display: grid;
+  grid-template-columns: 25px 50px 1fr 1fr 100px;
+  grid-gap: 20px;
+  margin: 5px;
+}
+
+.header {
+  color: #999999;
+  padding-bottom: 10px;
+}
+
+.header .row {
+  height: 25px;
+}
+
+.header hr {
+  height: 1px;
+  border-width: 0;
+  border-color: transparent;
+  color: #999999;
+  background-color: #999999;
+}
+
+.track {
+  cursor: pointer;
+}
+
+.queue_track {
+  cursor: auto;
+}
+
+.index {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.cover {
+  width: 50px;
+  height: 50px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.title {
+  color: black;
+  height: 25px;
+  line-height: 25px;
+}
+
+.artist {
+  color: #777777;
+  height: 25px;
+  line-height: 25px;
+}

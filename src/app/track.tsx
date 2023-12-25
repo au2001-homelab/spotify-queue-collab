@@ -1,15 +1,26 @@
-import { DispatchWithoutAction } from "react";
 import * as Spotify from "spotify-api.js";
+import styles from "./track.module.css";
 
 interface Props {
   track: Spotify.Track;
-  onClick?: DispatchWithoutAction;
 }
 
-export default function Track({ track, onClick }: Props) {
+export default function TrackCover({ track }: Props) {
   return (
-    <div onClick={onClick}>
-      {track.name} by {track.artists.map((artist) => artist.name).join(", ")}
+    <div className={styles.container} role={"gridcell"}>
+      <div className={styles.index}>{"▸"}</div>
+      <img
+        alt="album cover"
+        className={styles.cover}
+        draggable={false}
+        src={track.album?.images[0].url}
+      ></img>
+      <div>
+        <div className={styles.title}>{track.name}</div>
+        <div className={styles.artist}>
+          {track.artists.map((artist) => artist.name).join(", ")}
+        </div>
+      </div>
     </div>
   );
 }
