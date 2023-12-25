@@ -15,7 +15,8 @@
     "prettier": "^3.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "redis": "^4.6.12"
+    "redis": "^4.6.12",
+    "spotify-api.js": "^9.2.5"
   },
   "devDependencies": {
     "@types/node": "^20",

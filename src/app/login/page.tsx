@@ -1,7 +1,9 @@
+"use server";
+
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
-import { exchangeAccessToken } from "@/utils/spotify";
-import { REDIRECT_URI } from "@/utils/constants";
+import { exchangeAccessToken } from "@/utils/auth";
+import { REDIRECT_URL } from "@/utils/constants";
 
 function getLoginURL() {
   const params = new URLSearchParams();
@@ -11,7 +13,7 @@ function getLoginURL() {
     "scope",
     "user-read-private user-read-email playlist-modify-private playlist-modify-public user-read-currently-playing user-read-playback-state user-modify-playback-state",
   );
-  params.set("redirect_uri", REDIRECT_URI);
+  params.set("redirect_uri", REDIRECT_URL);
 
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
