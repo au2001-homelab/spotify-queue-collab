@@ -1,7 +1,17 @@
 version: "3"
 
 services:
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+
   app:
     build: .
+    environment:
+      BASE_URL: http://localhost:3000
+      REDIS_URL: redis://redis:6379
+      SPOTIFY_CLIENT_ID: dc3c74b17f104750a3a5d002a97baf43
+      SPOTIFY_CLIENT_SECRET: 1b99ac2aa679454eb14d398e19a39e28
     ports:
       - 3000:3000
