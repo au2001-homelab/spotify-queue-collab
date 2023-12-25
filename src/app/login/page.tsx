@@ -1,7 +1,7 @@
 import styles from "./page.module.css";
-import { REDIRECT_URI } from "./constants";
-import { login } from "./actions";
 import { redirect } from "next/navigation";
+import { exchangeAccessToken } from "@/utils/spotify";
+import { REDIRECT_URI } from "@/utils/constants";
 
 function getLoginURL() {
   const params = new URLSearchParams();
@@ -27,7 +27,7 @@ export default async function Login({ searchParams: { code } }: Props) {
 
   if (code !== undefined) {
     try {
-      await login(code);
+      await exchangeAccessToken(code);
     } catch (e: any) {
       error = e.message ?? e.error_description ?? e.error ?? e.toString();
     }

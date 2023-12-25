@@ -1,9 +1,9 @@
-import { getSpotifyAccessToken } from "@/utils/redis";
+import { getAccessToken } from "@/utils/spotify";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
 
 async function getState() {
-  const accessToken = await getSpotifyAccessToken();
+  const accessToken = await getAccessToken();
   return { accessToken };
 }
 
