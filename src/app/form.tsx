@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import * as Spotify from "spotify-api.js";
 import { pushTrack, searchTracks } from "./actions";
 import Track from "./track";
+import { useRouter } from "next/navigation";
 
 export default function Form() {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Spotify.Track[]>([]);
 
@@ -24,7 +26,8 @@ export default function Form() {
 
   async function onTrackClick(track: Spotify.Track) {
     await pushTrack(track.uri);
-    window.location.reload();
+    setQuery("");
+    router.refresh();
   }
 
   return (
