@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { DispatchWithoutAction } from "react";
 import * as Spotify from "spotify-api.js";
 import styles from "./track_list.module.css";
@@ -21,22 +22,19 @@ const formatDuration = (milliseconds: number) => {
 
 export function TrackHeader() {
   return (
-    <div className={styles.header}>
-      <div className={styles.row} role={"gridcell"}>
-        <div>{"#"}</div>
-        <div>Titre</div>
-        <div></div>
-        <div>Album</div>
-        <div>Durée</div>
-      </div>
-      <hr />
-    </div>
+    <tr className={styles.header}>
+      <th>{"#"}</th>
+      <th className={styles.cover_column}>Title</th>
+      <th></th>
+      <th>Album</th>
+      <th>Duration</th>
+    </tr>
   );
 }
 
 export function TrackItem({ index, track, onClick }: ItemProps) {
   return (
-    <div
+    <tr
       onClick={onClick}
       className={[
         styles.row,
@@ -44,36 +42,50 @@ export function TrackItem({ index, track, onClick }: ItemProps) {
       ].join(" ")}
       role={"gridcell"}
     >
-      <div className={styles.index}>{`${index + 1}.`}</div>
-      <img
-        alt="album cover"
-        className={styles.cover}
-        draggable={false}
-        src={track.album?.images[0].url}
-      ></img>
-      <div>
+      <td className={styles.index}>{`${index + 1}.`}</td>
+      <td>
+        <Image
+          alt="album cover"
+          className={styles.cover}
+          draggable={false}
+          src={track.album?.images[0].url ?? ""}
+          width={200}
+          height={200}
+        ></Image>
+      </td>
+      <td>
         <div className={styles.title}>{track.name}</div>
         <div className={styles.artist}>
           {track.artists.map((artist) => artist.name).join(", ")}
         </div>
-      </div>
-      <div className={styles.album}>{track.album?.name}</div>
-      <div className={styles.duration}>{formatDuration(track.duration)}</div>
-    </div>
+      </td>
+      <td className={styles.album}>{track.album?.name ?? "-"}</td>
+      <td className={styles.duration}>{formatDuration(track.duration)}</td>
+    </tr>
   );
 }
 
 interface ListProps {
   items: Spotify.Track[];
+  onClick?: DispatchWithoutAction;
 }
 
-export default function TrackList({ items }: ListProps) {
+export default function TrackList({ items, onClick }: ListProps) {
   return (
-    <div>
-      <TrackHeader />
-      {items.map((track, index) => (
-        <TrackItem index={index} key={track.id} track={track} />
-      ))}
-    </div>
+    <table className={styles.table}>
+      <thead>
+        <TrackHeader />
+      </thead>
+      <tbody>
+        {items.map((track, index) => (
+          <TrackItem
+            index={index}
+            key={track.id}
+            track={track}
+            onClick={onClick}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 }
