@@ -1,5 +1,3 @@
-"use server";
-
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
 import { exchangeAccessToken } from "@/utils/auth";

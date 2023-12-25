@@ -1,5 +1,3 @@
-"use server";
-
 import { getQueue } from "@/utils/queue";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
@@ -31,3 +29,5 @@ export default async function Home() {
     </main>
   );
 }
+
+export const dynamic = "force-dynamic";
