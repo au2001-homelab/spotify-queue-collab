@@ -1,7 +1,6 @@
 import * as Spotify from "spotify-api.js";
 import { REDIRECT_URL } from "./constants";
 import redis from "./redis";
-import { cache } from "react";
 
 interface SpotifyAuth extends Spotify.UserTokenContext {
   acquiredAt: string;
@@ -58,6 +57,8 @@ async function saveAccessToken(
     acquiredAt: acquiredAt.toISOString(),
   };
 
+  if ("refreshToken" in body) auth.refreshToken ??= body.refreshToken;
+
   if (!redis.isOpen) await redis.connect();
   await redis.set("spotify-auth", JSON.stringify(auth));
 
@@ -76,7 +77,7 @@ export async function refreshAccessToken(refreshToken: string) {
   });
 }
 
-export const getSpotify = cache(async () => {
+export async function getSpotify() {
   const accessToken = await getAccessToken();
   if (accessToken === null) return null;
 
@@ -88,4 +89,4 @@ export const getSpotify = cache(async () => {
       onFail: reject,
     });
   });
-});
+}

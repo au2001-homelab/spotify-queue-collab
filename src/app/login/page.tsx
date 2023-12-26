@@ -9,7 +9,7 @@ function getLoginURL() {
   params.set("client_id", process.env.SPOTIFY_CLIENT_ID ?? "");
   params.set(
     "scope",
-    "user-read-private user-read-email playlist-modify-private playlist-modify-public user-read-currently-playing user-read-playback-state user-modify-playback-state",
+    "user-read-currently-playing user-read-playback-state user-modify-playback-state",
   );
   params.set("redirect_uri", REDIRECT_URL);
 
