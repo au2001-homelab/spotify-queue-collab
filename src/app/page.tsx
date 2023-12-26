@@ -1,4 +1,5 @@
 import { getQueue, getCurrentPlayback } from "@/utils/queue";
+import * as Spotify from "spotify-api.js";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
 import TitleBar from "./titlebar";
@@ -6,8 +7,8 @@ import TrackCover from "./track_cover";
 import TrackList from "./track_list";
 
 interface Props {
-  queue: any;
-  currentPlayback: any;
+  queue: Spotify.Track[];
+  currentPlayback: Spotify.CurrentPlayback | null;
 }
 
 export function Body({ queue, currentPlayback }: Props) {
