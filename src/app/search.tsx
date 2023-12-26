@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import * as Spotify from "spotify-api.js";
 import { pushTrack, searchTracks } from "./actions";
 import { TrackHeader, TrackItem } from "./track_list";
-import { useRouter } from "next/navigation";
+import styles from "./search.module.css";
+import track_styles from "./track_list.module.css";
 
-export default function Form() {
+export default function Search() {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Spotify.Track[]>([]);
@@ -32,17 +34,18 @@ export default function Form() {
 
   return (
     <form>
-      <h1>Add a song</h1>
       <input
+        type="search"
+        className={styles.input}
         placeholder="Search song name..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
       {results.length > 0 && (
         <>
-          <table>
+          <table className={track_styles.table}>
             <thead>
-              <TrackHeader />
+              <TrackHeader onClick={() => undefined} />
             </thead>
             <tbody>
               {results.map((track, index) => (

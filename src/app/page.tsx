@@ -1,9 +1,41 @@
 import { getQueue, getCurrentPlayback } from "@/utils/queue";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
+import TitleBar from "./titlebar";
 import TrackCover from "./track_cover";
 import TrackList from "./track_list";
-import Form from "./form";
+
+interface Props {
+  queue: any;
+  currentPlayback: any;
+}
+
+export function Body({ queue, currentPlayback }: Props) {
+  return (
+    <div className={styles.body}>
+      <h1>Currently playing</h1>
+      {(() => {
+        if (
+          currentPlayback?.isPlaying &&
+          currentPlayback.item?.type === "track"
+        ) {
+          return <TrackCover currentPlayback={currentPlayback} />;
+        } else {
+          return <div>Play any song on Spotify to get started!</div>;
+        }
+      })()}
+      <br />
+      <h1>Queue</h1>
+      {(() => {
+        if (queue !== null && queue.length > 0) {
+          return <TrackList items={queue}></TrackList>;
+        } else {
+          return <div>Your song queue is empty.</div>;
+        }
+      })()}
+    </div>
+  );
+}
 
 export default async function Home() {
   const [queue, currentPlayback] = await Promise.all([
@@ -14,21 +46,8 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      <Form />
-
-      {currentPlayback?.isPlaying && currentPlayback.item?.type === "track" && (
-        <>
-          <h1>Currently playing</h1>
-          <TrackCover currentPlayback={currentPlayback} />
-        </>
-      )}
-
-      {queue.length > 0 && (
-        <>
-          <h1>Queue</h1>
-          <TrackList items={queue}></TrackList>
-        </>
-      )}
+      <TitleBar />
+      <Body queue={queue} currentPlayback={currentPlayback} />
     </main>
   );
 }

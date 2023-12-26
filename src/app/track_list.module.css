@@ -13,7 +13,7 @@
   padding: 5px;
 }
 
-table .cover_column {
+.cover_column {
   width: 50px;
 }
 
@@ -28,12 +28,6 @@ table .cover_column {
 
 .queue_track {
   cursor: auto;
-}
-
-.index {
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
 }
 
 .cover {
@@ -51,4 +45,10 @@ table .cover_column {
 
 .artist {
   color: #777777;
+}
+
+@media (max-width: 760px) {
+  .album {
+    display: none;
+  }
 }

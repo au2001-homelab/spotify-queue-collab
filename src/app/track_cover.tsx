@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as Spotify from "spotify-api.js";
 import { formatDuration } from "@/utils/ui";
-import styles from "./track.module.css";
+import styles from "./track_cover.module.css";
 
 interface Props {
   currentPlayback: Spotify.CurrentPlayback;

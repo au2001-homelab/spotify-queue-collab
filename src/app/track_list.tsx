@@ -4,20 +4,28 @@ import * as Spotify from "spotify-api.js";
 import { formatDuration } from "@/utils/ui";
 import styles from "./track_list.module.css";
 
+interface HeaderProps {
+  onClick?: DispatchWithoutAction;
+}
+
 interface ItemProps {
   index: number;
   track: Spotify.Track;
   onClick?: DispatchWithoutAction;
 }
 
-export function TrackHeader() {
+export function TrackHeader({ onClick }: HeaderProps) {
   return (
     <tr className={styles.header}>
-      <th>{"#"}</th>
+      {onClick === undefined && (
+        <>
+          <th className={styles.index}>#</th>
+        </>
+      )}
       <th className={styles.cover_column}>Title</th>
       <th></th>
-      <th>Album</th>
-      <th>Duration</th>
+      <th className={styles.album}>Album</th>
+      <th className={styles.duration}>🕗</th>
     </tr>
   );
 }
@@ -31,7 +39,11 @@ export function TrackItem({ index, track, onClick }: ItemProps) {
       }`}
       role="gridcell"
     >
-      <td className={styles.index}>{index}.</td>
+      {onClick === undefined && (
+        <>
+          <td className={styles.index}>{index}.</td>
+        </>
+      )}
       <td>
         <Image
           alt="album cover"
@@ -63,7 +75,7 @@ export default function TrackList({ items, onClick }: ListProps) {
   return (
     <table className={styles.table}>
       <thead>
-        <TrackHeader />
+        <TrackHeader onClick={onClick} />
       </thead>
       <tbody>
         {items.map((track, index) => (
