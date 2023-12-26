@@ -41,6 +41,7 @@
   font-size: 24px;
   color: black;
   cursor: pointer;
+  outline: none;
 }
 
 .header button:hover {
