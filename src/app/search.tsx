@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import * as Spotify from "spotify-api.js";
 import { pushTrack, searchTracks } from "./actions";
@@ -32,8 +32,14 @@ export default function Search() {
     router.refresh();
   }
 
+  function onKeyDown(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  }
+
   return (
-    <form>
+    <form onKeyDown={onKeyDown}>
       <input
         type="search"
         className={styles.input}

@@ -4,6 +4,7 @@
   background-color: #1fdf64;
   padding: 5px 10px 5px 10px;
   margin: 0;
+  position: fixed;
 }
 
 .header div {
@@ -33,4 +34,5 @@
   width: 100px;
   vertical-align: middle;
   display: inline-block;
+  cursor: pointer;
 }

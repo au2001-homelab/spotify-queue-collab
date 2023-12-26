@@ -39,15 +39,19 @@
   user-select: none;
 }
 
-.title {
-  color: black;
+.index,
+.title,
+.album,
+.duration {
+  font-size: 16px;
 }
 
 .artist {
   color: #777777;
+  font-size: 14px;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .album {
     display: none;
   }

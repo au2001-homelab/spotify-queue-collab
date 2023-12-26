@@ -1,7 +1,9 @@
 .modal {
   width: 90%;
   height: 90%;
-  margin: 2% 5% 5% 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  top: 5%;
   border-width: 1px;
   border-color: black;
   padding: 20px;
@@ -31,8 +33,16 @@
 }
 
 .header button {
-  width: 25px;
-  height: 25px;
   vertical-align: middle;
   display: inline-block;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: black;
+  cursor: pointer;
+}
+
+.header button:hover {
+  color: lightgray;
 }

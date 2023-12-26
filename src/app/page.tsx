@@ -48,6 +48,7 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       <TitleBar active={currentPlayback !== null} />
+      <div style={{ height: "40px" }}></div>
       <Body queue={queue} currentPlayback={currentPlayback} />
     </main>
   );
