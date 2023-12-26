@@ -1,0 +1,38 @@
+.modal {
+  width: 90%;
+  height: 90%;
+  margin: 2% 5% 5% 5%;
+  border-width: 1px;
+  border-color: black;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+.header {
+  width: 100%;
+  display: table;
+  padding-bottom: 10px;
+}
+
+.header div {
+  display: table-cell;
+  width: auto;
+}
+
+.header h1 {
+  width: 100%;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.header button {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+  display: inline-block;
+}

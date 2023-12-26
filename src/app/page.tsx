@@ -11,7 +11,7 @@ interface Props {
   currentPlayback: Spotify.CurrentPlayback | null;
 }
 
-export function Body({ queue, currentPlayback }: Props) {
+function Body({ queue, currentPlayback }: Props) {
   return (
     <div className={styles.body}>
       <h1>Currently playing</h1>
@@ -47,7 +47,7 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      <TitleBar />
+      <TitleBar active={currentPlayback !== null} />
       <Body queue={queue} currentPlayback={currentPlayback} />
     </main>
   );
