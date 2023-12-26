@@ -1,4 +1,4 @@
-import { getQueue, getPlaybackState } from "@/utils/queue";
+import { getQueue, getCurrentPlayback } from "@/utils/queue";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
 import TrackCover from "./track_cover";
@@ -6,28 +6,27 @@ import TrackList from "./track_list";
 import Form from "./form";
 
 export default async function Home() {
-  const queue = await getQueue();
-  const playback = await getPlaybackState();
+  const [queue, currentPlayback] = await Promise.all([
+    getQueue(),
+    getCurrentPlayback(),
+  ]);
   if (queue === null) redirect("/login");
 
   return (
     <main className={styles.main}>
       <Form />
 
-      {playback !== null && playback.currentlyPlaying !== null && (
+      {currentPlayback?.isPlaying && currentPlayback.item?.type === "track" && (
         <>
           <h1>Currently playing</h1>
-          <TrackCover
-            track={playback.currentlyPlaying}
-            progress={playback.progress}
-          />
+          <TrackCover currentPlayback={currentPlayback} />
         </>
       )}
 
-      {queue.queue.length > 0 && (
+      {queue.length > 0 && (
         <>
           <h1>Queue</h1>
-          <TrackList items={queue.queue}></TrackList>
+          <TrackList items={queue}></TrackList>
         </>
       )}
     </main>

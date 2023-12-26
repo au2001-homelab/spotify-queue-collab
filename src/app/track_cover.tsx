@@ -4,11 +4,12 @@ import { formatDuration } from "@/utils/ui";
 import styles from "./track.module.css";
 
 interface Props {
-  track: Spotify.Track;
-  progress: number | undefined;
+  currentPlayback: Spotify.CurrentPlayback;
 }
 
-export default function TrackCover({ track, progress }: Props) {
+export default function TrackCover({ currentPlayback }: Props) {
+  const track = currentPlayback.item as Spotify.Track;
+
   return (
     <table className={styles.table}>
       <tbody>
@@ -22,7 +23,7 @@ export default function TrackCover({ track, progress }: Props) {
               src={track.album?.images[0].url ?? ""}
               width={200}
               height={200}
-            ></Image>
+            />
           </td>
           <td className={styles.absorbing_column}>
             <div className={styles.title}>{track.name}</div>
@@ -31,9 +32,10 @@ export default function TrackCover({ track, progress }: Props) {
             </div>
           </td>
           <td>
-            <div className={styles.duration}>{`${formatDuration(
-              progress ?? 0,
-            )} / ${formatDuration(track.duration)}`}</div>
+            <div className={styles.duration}>
+              {formatDuration(currentPlayback.progress)} /{" "}
+              {formatDuration(track.duration)}
+            </div>
           </td>
         </tr>
       </tbody>

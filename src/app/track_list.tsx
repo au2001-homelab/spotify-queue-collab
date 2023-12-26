@@ -26,13 +26,12 @@ export function TrackItem({ index, track, onClick }: ItemProps) {
   return (
     <tr
       onClick={onClick}
-      className={[
-        styles.row,
-        onClick == undefined ? styles.queue_track : styles.track,
-      ].join(" ")}
-      role={"gridcell"}
+      className={`${styles.row} ${
+        onClick == undefined ? styles.queue_track : styles.track
+      }`}
+      role="gridcell"
     >
-      <td className={styles.index}>{`${index + 1}.`}</td>
+      <td className={styles.index}>{index}.</td>
       <td>
         <Image
           alt="album cover"
@@ -41,7 +40,7 @@ export function TrackItem({ index, track, onClick }: ItemProps) {
           src={track.album?.images[0].url ?? ""}
           width={200}
           height={200}
-        ></Image>
+        />
       </td>
       <td>
         <div className={styles.title}>{track.name}</div>
@@ -69,7 +68,7 @@ export default function TrackList({ items, onClick }: ListProps) {
       <tbody>
         {items.map((track, index) => (
           <TrackItem
-            index={index}
+            index={index + 2}
             key={track.id}
             track={track}
             onClick={onClick}
