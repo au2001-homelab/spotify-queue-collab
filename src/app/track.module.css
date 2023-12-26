@@ -42,3 +42,7 @@ table .cover_column {
 .artist {
   color: #777777;
 }
+
+.duration {
+  width: 150px;
+}

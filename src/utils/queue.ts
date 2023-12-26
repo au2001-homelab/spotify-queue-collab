@@ -19,3 +19,20 @@ export async function getQueue() {
     ),
   };
 }
+
+export async function getPlaybackState() {
+  const spotify = await getSpotify();
+  if (spotify === null) return null;
+
+  // Spotify-api.js does not support getting the user's queue (yet), so we do it manually
+  const state = await spotify.fetch("/me/player/currently-playing");
+
+  return {
+    isPlaying: state.is_playing,
+    progress: state.progress_ms,
+    currentlyPlaying:
+      state.currently_playing_type === "track"
+        ? new Spotify.Track(state.item, spotify)
+        : null,
+  };
+}

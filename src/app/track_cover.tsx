@@ -1,14 +1,14 @@
 import Image from "next/image";
 import * as Spotify from "spotify-api.js";
-import { DispatchWithoutAction } from "react";
+import { formatDuration } from "@/utils/ui";
 import styles from "./track.module.css";
 
 interface Props {
   track: Spotify.Track;
-  onClick?: DispatchWithoutAction;
+  progress: number | undefined;
 }
 
-export default function TrackCover({ track, onClick }: Props) {
+export default function TrackCover({ track, progress }: Props) {
   return (
     <table className={styles.table}>
       <tbody>
@@ -29,6 +29,11 @@ export default function TrackCover({ track, onClick }: Props) {
             <div className={styles.artist}>
               {track.artists.map((artist) => artist.name).join(", ")}
             </div>
+          </td>
+          <td>
+            <div className={styles.duration}>{`${formatDuration(
+              progress ?? 0,
+            )} / ${formatDuration(track.duration)}`}</div>
           </td>
         </tr>
       </tbody>

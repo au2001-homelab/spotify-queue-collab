@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { DispatchWithoutAction } from "react";
 import * as Spotify from "spotify-api.js";
+import { formatDuration } from "@/utils/ui";
 import styles from "./track_list.module.css";
 
 interface ItemProps {
@@ -8,17 +9,6 @@ interface ItemProps {
   track: Spotify.Track;
   onClick?: DispatchWithoutAction;
 }
-
-const formatDuration = (milliseconds: number) => {
-  const seconds = Math.floor((milliseconds / 1000) % 60);
-  const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
-  const hours = Math.floor((milliseconds / 1000 / 60 / 60) % 24);
-  return [
-    hours.toString().padStart(2, "0"),
-    minutes.toString().padStart(2, "0"),
-    seconds.toString().padStart(2, "0"),
-  ].join(":");
-};
 
 export function TrackHeader() {
   return (
