@@ -1,11 +1,10 @@
 import * as Spotify from "spotify-api.js";
 import { REDIRECT_URL } from "./constants";
 import redis from "./redis";
+import { cache } from "react";
 
-interface SpotifyAuth {
-  accessToken: string;
-  refreshToken?: string;
-  expiresAt: string;
+interface SpotifyAuth extends Spotify.UserTokenContext {
+  acquiredAt: string;
 }
 
 const client = new Spotify.Client({
@@ -21,11 +20,14 @@ export async function getAccessToken() {
   const raw = await redis.get("spotify-auth");
   if (raw === null) return null;
 
-  const { accessToken, refreshToken, expiresAt } = JSON.parse(
+  const { accessToken, refreshToken, expiresIn, acquiredAt } = JSON.parse(
     raw,
   ) as SpotifyAuth;
 
-  if (refreshToken !== undefined && new Date(expiresAt) < new Date()) {
+  if (
+    refreshToken !== undefined &&
+    new Date(acquiredAt).getTime() + expiresIn * 1000 < Date.now()
+  ) {
     try {
       const { accessToken } = await refreshAccessToken(refreshToken);
       return accessToken;
@@ -41,6 +43,8 @@ export async function getAccessToken() {
 async function saveAccessToken(
   body: { code: string } | { refreshToken: string },
 ): Promise<SpotifyAuth> {
+  const acquiredAt = new Date();
+
   const token = await client.auth.getUserToken({
     clientID: process.env.SPOTIFY_CLIENT_ID ?? "",
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET ?? "",
@@ -51,7 +55,7 @@ async function saveAccessToken(
 
   const auth = {
     ...token,
-    expiresAt: new Date(Date.now() + token.expiresIn * 1000).toISOString(),
+    acquiredAt: acquiredAt.toISOString(),
   };
 
   if (!redis.isOpen) await redis.connect();
@@ -72,7 +76,7 @@ export async function refreshAccessToken(refreshToken: string) {
   });
 }
 
-export async function getSpotify() {
+export const getSpotify = cache(async () => {
   const accessToken = await getAccessToken();
   if (accessToken === null) return null;
 
@@ -84,4 +88,4 @@ export async function getSpotify() {
       onFail: reject,
     });
   });
-}
+});
