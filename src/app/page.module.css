@@ -1,3 +1,8 @@
 .body {
   padding: 10px;
 }
+
+.footnote {
+  padding: 0 20px 10px 20px;
+  font-style: italic;
+}

@@ -28,10 +28,11 @@
   padding: 0 20px 0 20px;
   vertical-align: middle;
   display: inline-block;
+  font-size: 24px;
 }
 
 .header button {
-  width: 120px;
+  width: 140px;
   vertical-align: middle;
   display: inline-block;
   cursor: pointer;
@@ -39,6 +40,13 @@
 }
 
 @media (max-width: 500px) {
+  .header .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .header .title {
+    font-size: 20px;
+  }
   .header button {
     width: 100px;
     font-size: 14px;

@@ -50,6 +50,9 @@ export default async function Home() {
       <TitleBar active={currentPlayback !== null} />
       <div style={{ height: "40px" }}></div>
       <Body queue={queue} currentPlayback={currentPlayback} />
+      <p className={styles.footnote}>
+        Only the first 20 elements of the queue are shown
+      </p>
     </main>
   );
 }
