@@ -19,15 +19,16 @@ interface Props {
 
 export default function Modal({ title, children, isOpen, handleClose }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const close = () => {
     dialogRef.current?.close();
   };
 
   function handleClickOutside(event: MouseEvent) {
-    if (!dialogRef.current) return;
+    if (!dialogRef.current || !contentRef.current) return;
 
-    const box = dialogRef.current?.getBoundingClientRect();
+    const box = contentRef.current?.getBoundingClientRect();
     if (
       event.pageX < box.left ||
       event.pageX > box.right ||
@@ -56,7 +57,7 @@ export default function Modal({ title, children, isOpen, handleClose }: Props) {
       onClose={handleClose}
       onClick={handleClickOutside}
     >
-      <div className={styles.container}>
+      <div className={styles.content} ref={contentRef}>
         <div className={styles.header}>
           <div style={{ width: "100%" }}>
             <h1>{title}</h1>

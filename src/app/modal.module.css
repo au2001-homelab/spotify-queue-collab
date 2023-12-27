@@ -10,7 +10,7 @@
   backdrop-filter: blur(10px);
 }
 
-.container {
+.content {
   position: fixed;
   width: 90%;
   height: 90%;
