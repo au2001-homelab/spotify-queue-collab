@@ -30,9 +30,9 @@ export default function Search() {
 
     const abort = new AbortController();
 
+    setResults([]);
+    setStatus(SearchStatus.Loading);
     const timeout = setTimeout(() => {
-      setResults([]);
-      setStatus(SearchStatus.Loading);
       searchTracks(query)
         .then((results) => {
           if (!abort.signal.aborted) {
@@ -46,7 +46,7 @@ export default function Search() {
           }
           console.error;
         });
-    }, 100);
+    }, 300);
 
     return () => {
       abort.abort();
