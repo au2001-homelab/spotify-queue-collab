@@ -2,6 +2,7 @@
 
 import { getSpotify } from "@/utils/auth";
 import { SPOTIFY_MARKET } from "@/utils/constants";
+import redis from "@/utils/redis";
 
 export async function searchTracks(query: string) {
   const spotify = await getSpotify();
@@ -20,4 +21,6 @@ export async function pushTrack(uri: string) {
 
   const success = await spotify.user.player.addItem(uri);
   if (!success) throw new Error("Failed to push track");
+
+  await redis.rPush("playlist", uri);
 }
