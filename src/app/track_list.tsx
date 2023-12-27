@@ -17,11 +17,7 @@ interface ItemProps {
 export function TrackHeader({ onClick }: HeaderProps) {
   return (
     <tr className={styles.header}>
-      {onClick === undefined && (
-        <>
-          <th className={styles.index}>#</th>
-        </>
-      )}
+      {onClick === undefined && <th className={styles.index}>#</th>}
       <th className={styles.cover_column}>Title</th>
       <th></th>
       <th className={styles.album}>Album</th>
@@ -39,11 +35,7 @@ export function TrackItem({ index, track, onClick }: ItemProps) {
       }`}
       role="gridcell"
     >
-      {onClick === undefined && (
-        <>
-          <td className={styles.index}>{index}.</td>
-        </>
-      )}
+      {onClick === undefined && <td className={styles.index}>{index}.</td>}
       <td>
         <Image
           alt="album cover"

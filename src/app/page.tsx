@@ -15,25 +15,23 @@ function Body({ queue, currentPlayback }: Props) {
   return (
     <div className={styles.body}>
       <h1>Currently playing</h1>
-      {(() => {
-        if (
-          currentPlayback?.isPlaying &&
-          currentPlayback.item?.type === "track"
-        ) {
-          return <TrackCover currentPlayback={currentPlayback} />;
-        } else {
-          return <div>Play any song on Spotify to get started!</div>;
-        }
-      })()}
+      {currentPlayback?.item?.type === "track" ? (
+        <TrackCover currentPlayback={currentPlayback} />
+      ) : (
+        <div>Play any song on Spotify to get started!</div>
+      )}
       <br />
       <h1>Queue</h1>
-      {(() => {
-        if (queue !== null && queue.length > 0) {
-          return <TrackList items={queue}></TrackList>;
-        } else {
-          return <div>Your song queue is empty.</div>;
-        }
-      })()}
+      {queue.length > 0 ? (
+        <TrackList items={queue}></TrackList>
+      ) : (
+        <div>The song queue is empty.</div>
+      )}
+      {queue.length >= 20 && (
+        <p className={styles.footnote}>
+          Only the first 20 elements of the queue are shown.
+        </p>
+      )}
     </div>
   );
 }
@@ -48,11 +46,7 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       <TitleBar active={currentPlayback !== null} />
-      <div style={{ height: "40px" }}></div>
       <Body queue={queue} currentPlayback={currentPlayback} />
-      <p className={styles.footnote}>
-        Only the first 20 elements of the queue are shown
-      </p>
     </main>
   );
 }

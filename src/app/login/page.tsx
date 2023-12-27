@@ -29,6 +29,7 @@ export default async function Login({ searchParams: { code } }: Props) {
     try {
       await exchangeAccessToken(code);
     } catch (e: any) {
+      console.error(e);
       error = e.message ?? e.error_description ?? e.error ?? e.toString();
     }
 

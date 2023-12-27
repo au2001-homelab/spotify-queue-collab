@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import * as Spotify from "spotify-api.js";
 import styles from "./titlebar.module.css";
 import Search from "./search";
 import Modal from "./modal";
@@ -13,39 +12,33 @@ interface Props {
 
 export default function TitleBar({ active }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const showSongModel = () => {
-    setIsOpen(true);
-  };
-  const hideSongModel = () => {
-    setIsOpen(false);
-  };
 
   return (
-    <div style={{ width: "100%" }}>
+    <>
       <header className={styles.header}>
-        <div>
-          <div style={{ width: "25px" }}>
-            <Image
-              alt="icon"
-              className={styles.icon}
-              src="/favicon.ico"
-              width={50}
-              height={50}
-            ></Image>
-          </div>
-          <div style={{ width: "100%" }}>
-            <h2 className={styles.title}>Spotify collab</h2>
-          </div>
-          <div style={{ width: "100px" }}>
-            <button onClick={showSongModel} disabled={!active}>
-              + Add a song
-            </button>
-          </div>
-        </div>
+        <Image
+          alt="icon"
+          className={styles.icon}
+          src="/favicon.ico"
+          width={25}
+          height={25}
+        />
+        <h2 className={styles.title}>Spotify collab</h2>
+        <button
+          className={styles.button}
+          onClick={() => setIsOpen(true)}
+          disabled={!active}
+        >
+          + Add a song
+        </button>
       </header>
-      <Modal title="Add a song" isOpen={isOpen} handleClose={hideSongModel}>
+      <Modal
+        title="Add a song"
+        isOpen={isOpen}
+        handleClose={() => setIsOpen(false)}
+      >
         <Search />
       </Modal>
-    </div>
+    </>
   );
 }

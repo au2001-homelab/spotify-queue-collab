@@ -33,7 +33,8 @@ export default function TrackCover({ currentPlayback }: Props) {
           </td>
           <td>
             <div className={styles.duration}>
-              {formatDuration(currentPlayback.progress)} /{" "}
+              {formatDuration(currentPlayback.progress)}
+              {" / "}
               {formatDuration(track.duration)}
             </div>
           </td>

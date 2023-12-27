@@ -1,54 +1,40 @@
 .header {
-  display: table;
+  position: sticky;
+  top: 0;
+
+  display: flex;
   width: 100%;
-  background-color: #1fdf64;
   padding: 5px 10px 5px 10px;
-  margin: 0;
-  position: fixed;
+  background-color: #1fdf64;
+
+  align-items: center;
 }
 
-.header div {
-  display: table-row;
-}
-
-.header div div {
-  display: table-cell;
-  width: auto;
-}
-
-.header .icon {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
-  display: inline-block;
-}
-
-.header .title {
-  width: 100%;
-  padding: 0 20px 0 20px;
+.title {
+  flex: 1;
+  padding: 0 20px;
   vertical-align: middle;
   display: inline-block;
   font-size: 24px;
 }
 
-.header button {
-  width: 140px;
-  vertical-align: middle;
-  display: inline-block;
+.button {
+  padding: 5px 20px;
   cursor: pointer;
   font-size: 16px;
 }
 
 @media (max-width: 500px) {
-  .header .icon {
+  .icon {
     width: 20px;
     height: 20px;
   }
-  .header .title {
+
+  .title {
     font-size: 20px;
   }
-  .header button {
-    width: 100px;
+
+  .button {
     font-size: 14px;
   }
 }

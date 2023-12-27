@@ -24,9 +24,7 @@ export default function Modal({ title, children, isOpen, handleClose }: Props) {
   };
 
   function handleClickOutside(event: MouseEvent) {
-    if (!dialogRef.current) {
-      return;
-    }
+    if (!dialogRef.current) return;
 
     const box = dialogRef.current?.getBoundingClientRect();
     if (
