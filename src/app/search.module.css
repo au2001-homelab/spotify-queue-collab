@@ -15,3 +15,8 @@
   transition: 0.2s ease-in-out;
   border: 1px solid #1fdf64;
 }
+
+.status {
+  text-align: center;
+  padding-top: 20px;
+}

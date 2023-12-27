@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import * as Spotify from "spotify-api.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,55 +9,75 @@ import { TrackHeader, TrackItem } from "./track_list";
 import styles from "./search.module.css";
 import track_styles from "./track_list.module.css";
 
+enum SearchStatus {
+  Init,
+  Loading,
+  Done,
+  Error,
+}
+
 export default function Search() {
-  const router = useRouter();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Spotify.Track[]>([]);
+  const [status, setStatus] = useState<SearchStatus>(SearchStatus.Init);
 
   useEffect(() => {
     if (query === "") {
       setResults([]);
+      setStatus(SearchStatus.Init);
       return;
     }
 
     const abort = new AbortController();
 
     const timeout = setTimeout(() => {
+      setResults([]);
+      setStatus(SearchStatus.Loading);
       searchTracks(query)
         .then((results) => {
-          if (!abort.signal.aborted) setResults(results);
+          if (!abort.signal.aborted) {
+            setStatus(SearchStatus.Done);
+            setResults(results);
+          }
         })
-        .catch(console.error);
+        .catch(() => {
+          if (!abort.signal.aborted) {
+            setStatus(SearchStatus.Error);
+          }
+          console.error;
+        });
     }, 100);
 
     return () => {
       abort.abort();
       clearTimeout(timeout);
+      setStatus(SearchStatus.Init);
     };
   }, [query]);
 
   async function onTrackClick(track: Spotify.Track) {
     toast.promise(pushTrack(track.uri), {
-      pending: {
-        render() {
-          return `Adding "${track.name}"...`;
-        },
-      },
-      success: {
-        render() {
-          return `"${track.name}" added`;
-        },
-      },
-      error: {
-        render() {
-          return `Failed to add "${track.name}"`;
-        },
-      },
+      pending: `Adding "${track.name}"...`,
+      success: `"${track.name}" added`,
+      error: `Failed to add "${track.name}"`,
     });
   }
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
+  }
+
+  function statusDescription(): string {
+    switch (status) {
+      case SearchStatus.Init:
+        return "Start searching to get started";
+      case SearchStatus.Done:
+        return "No result";
+      case SearchStatus.Error:
+        return "Search failed";
+      case SearchStatus.Loading:
+        return "Loading...";
+    }
   }
 
   return (
@@ -70,7 +89,7 @@ export default function Search() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      {results.length > 0 && (
+      {results.length > 0 ? (
         <>
           <table className={track_styles.table}>
             <thead>
@@ -88,6 +107,8 @@ export default function Search() {
             </tbody>
           </table>
         </>
+      ) : (
+        <p className={styles.status}>{statusDescription()}</p>
       )}
     </form>
   );
