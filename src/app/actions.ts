@@ -16,9 +16,8 @@ export async function searchTracks(query: string) {
 
 export async function pushTrack(uri: string) {
   const spotify = await getSpotify();
-  if (spotify === null)
-    return Promise.reject(new Error("Spotify API not initialized"));
+  if (spotify === null) throw new Error("Spotify API not initialized");
 
-  if ((await spotify.user.player.addItem(uri)) === true) Promise.resolve();
-  else Promise.reject(new Error("Failed to push track"));
+  const success = await spotify.user.player.addItem(uri);
+  if (!success) throw new Error("Failed to push track");
 }

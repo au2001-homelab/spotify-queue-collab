@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as Spotify from "spotify-api.js";
-import { formatDuration } from "@/utils/ui";
 import styles from "./track_cover.module.css";
+import { Timer } from "./timer";
 
 interface Props {
   currentPlayback: Spotify.CurrentPlayback;
@@ -33,9 +33,10 @@ export default function TrackCover({ currentPlayback }: Props) {
           </td>
           <td>
             <div className={styles.duration}>
-              {formatDuration(currentPlayback.progress)}
-              {" / "}
-              {formatDuration(track.duration)}
+              <Timer
+                timestamp={currentPlayback.timestamp}
+                duration={track.duration}
+              />
             </div>
           </td>
         </tr>
