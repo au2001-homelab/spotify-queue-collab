@@ -3,7 +3,7 @@
 import { useEffect, useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import * as Spotify from "spotify-api.js";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { pushTrack, searchTracks } from "./actions";
 import { TrackHeader, TrackItem } from "./track_list";
@@ -38,13 +38,23 @@ export default function Search() {
   }, [query]);
 
   async function onTrackClick(track: Spotify.Track) {
-    const success = await pushTrack(track.uri);
-    if (success) {
-      toast.success("Song added");
-      router.refresh();
-    } else {
-      toast.error("Failed to add song");
-    }
+    toast.promise(pushTrack(track.uri), {
+      pending: {
+        render() {
+          return `Adding "${track.name}"...`;
+        },
+      },
+      success: {
+        render() {
+          return `"${track.name}" added`;
+        },
+      },
+      error: {
+        render() {
+          return `Failed to add "${track.name}"`;
+        },
+      },
+    });
   }
 
   function onSubmit(event: FormEvent) {
@@ -79,18 +89,6 @@ export default function Search() {
           </table>
         </>
       )}
-      <ToastContainer
-        position="bottom-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </form>
   );
 }

@@ -7,6 +7,7 @@ import {
   ReactNode,
   MouseEvent,
 } from "react";
+import { ToastContainer } from "react-toastify";
 import styles from "./modal.module.css";
 
 interface Props {
@@ -55,17 +56,31 @@ export default function Modal({ title, children, isOpen, handleClose }: Props) {
       onClose={handleClose}
       onClick={handleClickOutside}
     >
-      <div className={styles.header}>
-        <div style={{ width: "100%" }}>
-          <h1>{title}</h1>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div style={{ width: "100%" }}>
+            <h1>{title}</h1>
+          </div>
+          <div style={{ width: "25px" }}>
+            <button type="button" onClick={close} title="close">
+              ╳
+            </button>
+          </div>
         </div>
-        <div style={{ width: "25px" }}>
-          <button type="button" onClick={close} title="close">
-            ╳
-          </button>
-        </div>
+        {children}
       </div>
-      {children}
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </dialog>
   );
 }
