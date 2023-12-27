@@ -14,9 +14,9 @@ export async function searchTracks(query: string) {
   return JSON.parse(JSON.stringify(tracks));
 }
 
-export async function pushTrack(uri: string) {
+export async function pushTrack(uri: string): Promise<boolean> {
   const spotify = await getSpotify();
-  if (spotify === null) return;
+  if (spotify === null) return false;
 
-  await spotify.user.player.addItem(uri);
+  return await spotify.user.player.addItem(uri);
 }
