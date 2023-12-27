@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, KeyboardEvent } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import * as Spotify from "spotify-api.js";
 import { pushTrack, searchTracks } from "./actions";
@@ -19,27 +19,34 @@ export default function Search() {
       return;
     }
 
-    const timeout = setTimeout(() => {
-      searchTracks(query).then(setResults).catch(console.error);
-    }, 300);
+    const abort = new AbortController();
 
-    return () => clearTimeout(timeout);
+    const timeout = setTimeout(() => {
+      searchTracks(query)
+        .then((results) => {
+          if (!abort.signal.aborted) setResults(results);
+        })
+        .catch(console.error);
+    }, 100);
+
+    return () => {
+      abort.abort();
+      clearTimeout(timeout);
+    };
   }, [query]);
 
   async function onTrackClick(track: Spotify.Track) {
     await pushTrack(track.uri);
-    setQuery("");
+    // TODO: Toast
     router.refresh();
   }
 
-  function onKeyDown(event: KeyboardEvent) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-    }
+  function onSubmit(event: FormEvent) {
+    event.preventDefault();
   }
 
   return (
-    <form onKeyDown={onKeyDown}>
+    <form onSubmit={onSubmit}>
       <input
         type="search"
         className={styles.input}
